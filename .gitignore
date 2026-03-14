@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.tmp
+*.log
+next_data.json
+docs.html
+docs_text.txt
+openapi.json
+redoc_spec.json
