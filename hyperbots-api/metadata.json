@@ -1,0 +1,10 @@
+{
+  "version": "1.1.0",
+  "organization": "Hyperbots",
+  "date": "March 2026",
+  "abstract": "Comprehensive agent skill for HyperAPI (by Hyperbots). Enables high-fidelity OCR (Parse), structured entity and line-item extraction (Extract), document categorization (Classify), and multi-document logical segmentation (Split). Built for financial automation and high-throughput document intelligence.",
+  "references": [
+    "https://apis.hyperbots.com/docs",
+    "https://github.com/hyprbots/hyperapi-sdk"
+  ]
+}

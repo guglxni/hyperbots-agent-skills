@@ -1,6 +1,10 @@
 ---
 name: hyperbots-api
 description: "Financial document processing with HyperAPI (parse, classify, split, extract, process). Use when processing invoices, receipts, or financial PDFs to extract structured data, OCR text, or categorize document types. Supports S3 presigned upload flow for large files."
+license: MIT
+metadata:
+  author: hyperbots
+  version: "1.1.0"
 ---
 
 # HyperAPI Skill (by Hyperbots)

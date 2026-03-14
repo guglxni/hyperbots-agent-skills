@@ -1,0 +1,23 @@
+{
+  "skill_name": "hyperbots-api",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Parse the document 'invoice_sample.pdf' and tell me the raw OCR text.",
+      "expected_output": "The raw OCR text from the invoice.",
+      "files": ["invoice_sample.pdf"]
+    },
+    {
+      "id": 1,
+      "prompt": "Extract structured data from 'receipt_sample.jpg'. I need the vendor name and total amount.",
+      "expected_output": "JSON containing vendor_name and total_amount.",
+      "files": ["receipt_sample.jpg"]
+    },
+    {
+      "id": 2,
+      "prompt": "I have a file 'multi_doc.pdf'. Can you split it and tell me the segments?",
+      "expected_output": "List of segments with page ranges.",
+      "files": ["multi_doc.pdf"]
+    }
+  ]
+}
