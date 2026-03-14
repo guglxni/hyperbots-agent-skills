@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 # Updated base URL from SDK
-DEFAULT_BASE_URL = "http://hyperapi-production-12097051.us-east-1.elb.amazonaws.com"
+DEFAULT_BASE_URL = "https://api.hyperapi.dev"
 
 def main():
     parser = argparse.ArgumentParser(description="Hyperbots API (HyperAPI) CLI")

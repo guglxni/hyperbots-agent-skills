@@ -2,22 +2,34 @@
   "skill_name": "hyperbots-api",
   "evals": [
     {
-      "id": 0,
-      "prompt": "Parse the document 'invoice_sample.pdf' and tell me the raw OCR text.",
-      "expected_output": "The raw OCR text from the invoice.",
-      "files": ["invoice_sample.pdf"]
-    },
-    {
       "id": 1,
-      "prompt": "Extract structured data from 'receipt_sample.jpg'. I need the vendor name and total amount.",
-      "expected_output": "JSON containing vendor_name and total_amount.",
-      "files": ["receipt_sample.jpg"]
+      "prompt": "I have a folder of invoice PDFs in ~/documents/invoices/ and I need to extract the vendor names, invoice numbers, and total amounts from each one. Can you help me write a script that processes all of them using HyperAPI and saves the results to a CSV file called extracted_invoices.csv?",
+      "expected_output": "A Python script that uses the HyperAPIClient to extract structured data from invoice PDFs, handles batch processing of multiple files, and exports results to CSV format with columns for vendor names, invoice numbers, and total amounts.",
+      "files": []
     },
     {
       "id": 2,
-      "prompt": "I have a file 'multi_doc.pdf'. Can you split it and tell me the segments?",
-      "expected_output": "List of segments with page ranges.",
-      "files": ["multi_doc.pdf"]
+      "prompt": "My company receives mixed PDF batches containing invoices, receipts, and contracts all in one file. I need to split them into separate documents and then classify each one so we can route them to the right department. How would I do this with HyperAPI?",
+      "expected_output": "Code that demonstrates using the split endpoint to segment multi-document PDFs, followed by the classify endpoint to categorize each segment by document type (invoice, receipt, contract).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need to extract text from a scanned receipt image (receipt.jpg) using OCR. The receipt is a bit blurry and I want to make sure I get all the text content. Can you show me how to call the HyperAPI parse endpoint?",
+      "expected_output": "Example code showing how to use the HyperAPI parse endpoint with Python SDK or curl to extract OCR text from an image file.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "We're building an accounts payable automation system. We need to process incoming invoices and extract line items with descriptions, quantities, unit prices, and totals. Show me how to do this with HyperAPI and handle the response to calculate subtotals.",
+      "expected_output": "Python code using the extract endpoint to get line items from invoices, with logic to iterate through line_items array and calculate subtotals from quantity and unit_price fields.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I keep getting 402 errors when calling the HyperAPI. What does this mean and how should I handle it in my code? Also, what are the rate limits for the Pro tier?",
+      "expected_output": "Explanation that 402 means insufficient credits, with code example showing error handling for credit balance issues, plus documentation of Pro tier rate limits (100 requests/min, 10 concurrency).",
+      "files": []
     }
   ]
 }
