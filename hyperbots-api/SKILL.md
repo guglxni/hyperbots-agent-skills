@@ -1,31 +1,33 @@
 ---
 name: hyperbots-api
-description: "Financial document processing with Hyperbots APIs (parse, classify, split, extract). Use when processing invoices, receipts, or financial PDFs to extract structured data, OCR text, or categorize document types."
+description: "Financial document processing with HyperAPI (parse, classify, split, extract, process). Use when processing invoices, receipts, or financial PDFs to extract structured data, OCR text, or categorize document types. Supports S3 presigned upload flow for large files."
 ---
 
-# Hyperbots API Skill
+# HyperAPI Skill (by Hyperbots)
 
-This skill provides comprehensive access to Hyperbots financial document intelligence APIs.
+This skill provides comprehensive access to HyperAPI financial document intelligence.
 
 ## Capabilities
 
-The API supports four main document processing tasks:
+The API supports five main document processing tasks:
 
 1.  **Parse (`/v1/parse`)**: Extract raw text using OCR. Best for searchable PDFs or unstructured text.
-2.  **Classify (`/v1/classify`)**: Automatically categorize financial documents (invoices, receipts, contracts).
-3.  **Split (`/v1/split`)**: Logical segmentation of multi-document PDFs (e.g., separating multiple invoices in one file).
-4.  **Extract (`/v1/extract`)**: Vision-language extraction of structured fields (vendor, total, line items).
+2.  **Extract (`/v1/extract`)**: Vision-language extraction of structured fields (vendor, total, line items).
+3.  **Classify (`/v1/classify`)**: Automatically categorize financial documents (invoices, receipts, contracts).
+4.  **Split (`/v1/split`)**: Logical segmentation of multi-document PDFs.
+5.  **Process**: Combined Parse + Extract in one upload.
+6.  **Upload**: Presigned S3 flow for files > 50 MB.
 
 ## Workflow
 
 ### 1. Prerequisites
 
--   **API Key**: Requires `X-API-Key` header (get from dashboard). Keys start with `hk_live_` or `hk_test_`.
--   **SDK**: Use the `hyperapi` Python package if available.
+-   **API Key**: Requires `X-API-Key` header (e.g. `hk_live_...`).
+-   **SDK**: Use the `hyperapi` Python package.
 
 ### 2. Implementation Guide
 
-For a detailed reference of all endpoints, parameters, and response schemas, see [references/api_docs.md](references/api_docs.md).
+For a detailed reference of all endpoints and SDK methods, see [references/api_docs.md](references/api_docs.md).
 
 #### Python SDK Example
 
@@ -34,29 +36,24 @@ from hyperapi import HyperAPIClient
 
 client = HyperAPIClient(api_key="your_key_here")
 
-# Parse: OCR raw text
-ocr_result = client.parse("document.pdf")
+# Process: Parse + Extract in one call
+result = client.process("invoice.pdf")
+print(result["ocr"])
+print(result["data"]["entities"])
 
-# Extract: Structured fields
-entities = client.extract("invoice.pdf")
-print(entities["result"]["entities"]) # Vendor, total, items
+# Extraction only
+entities = client.extract("receipt.png")
 
-# Classify: Document type
-doc_type = client.classify("scan.pdf")
-
-# Split: Page segments
-segments = client.split("bundle.pdf")
+# Parsing only
+text = client.parse("document.pdf")
 ```
 
 #### CLI Interaction
 
-A bundled script is available in the skill: `scripts/hyperbots_cli.py`.
+A bundled script is available: `scripts/hyperbots_cli.py`.
 
 ```bash
-# Set API Key
-export HYPERBOTS_API_KEY=hk_live_...
-
-# Run a task
+export HYPERAPI_KEY=hk_live_...
 python3 <skill-path>/scripts/hyperbots_cli.py extract invoice.pdf
 ```
 
@@ -64,14 +61,11 @@ python3 <skill-path>/scripts/hyperbots_cli.py extract invoice.pdf
 
 -   **401**: Missing/Invalid Key.
 -   **402**: Insufficient credits.
--   **413**: File > 50 MB.
--   **429**: Rate limit (Free: 10/min, Pro: 100/min).
-
-For more details on error codes and rate limits, consult the [full docs](references/api_docs.md).
+-   **504**: Timeout (use 120s+).
 
 ## Best Practices
 
--   **Extraction**: Prefer `extract` for invoices/receipts where you need structured JSON.
--   **OCR**: Use `parse` for high-fidelity text extraction in Markdown.
--   **File Types**: Supports PDF, PNG, JPG.
--   **Multipart**: All requests must be `multipart/form-data`.
+-   **S3 Presigned Flow**: Enabled by default in SDK (`use_presigned=True`). Highly recommended for production.
+-   **Models**: 
+    - `hyperbots_vlm_ocr` (Parse, Classify, Split)
+    - `hyperbots_vlm_extract` (Extract)
